@@ -195,6 +195,7 @@ $username = $_SESSION['username'];
             <p>Adorable handcrafted scarf.</p>
           </div>
         </div>
+        
       </div>
     </div>
   </div>
