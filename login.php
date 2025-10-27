@@ -2,32 +2,49 @@
 include 'db.php';
 session_start();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+// Redirect to home if already logged in
+if (isset($_SESSION['user_id'])) {
+    if ($_SESSION['role'] === 'admin') {
+        header("Location: admin_home.php");
+    } else {
+        header("Location: user_home.php");
+    }
+    exit();
+}
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $username = trim($_POST['username']);
     $password = $_POST['password'];
 
-    $stmt = $conn->prepare("SELECT * FROM users WHERE username = ?");
-    $stmt->bind_param("s", $username);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows === 1) {
-        $row = $result->fetch_assoc();
-        if (password_verify($password, $row['password'])) {
-            $_SESSION['username'] = $row['username'];
-            $_SESSION['role'] = $row['role'];
-
-            if ($row['role'] === 'admin') {
-                header("Location: admin_home.php");
-            } else {
-                header("Location: user_home.php");
-            }
-            exit();
-        } else {
-            $error = "Invalid password.";
-        }
+    if (empty($username) || empty($password)) {
+        $error = "⚠️ Please enter both username and password.";
     } else {
-        $error = "User not found.";
+        $stmt = $conn->prepare("SELECT * FROM users WHERE username = ?");
+        $stmt->bind_param("s", $username);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows === 1) {
+            $row = $result->fetch_assoc();
+            if (password_verify($password, $row['password'])) {
+                // Store user details in session
+                $_SESSION['user_id'] = $row['id'];
+                $_SESSION['username'] = $row['username'];
+                $_SESSION['role'] = $row['role'];
+
+                // Redirect based on role
+                if ($row['role'] === 'admin') {
+                    header("Location: admin_home.php");
+                } else {
+                    header("Location: user_home.php");
+                }
+                exit();
+            } else {
+                $error = "❌ Incorrect password.";
+            }
+        } else {
+            $error = "⚠️ No account found with that username.";
+        }
     }
 }
 ?>
@@ -36,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Crochet Haven | Login</title>
+  <title>Crochet Ni Ate | Login</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
@@ -46,6 +63,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       display: flex;
       align-items: center;
       justify-content: center;
+      position: relative;
+    }
+
+    .pattern {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('img/wool-elements-space-right.jpg');
+      background-repeat: repeat;
+      background-size: cover;
+      opacity: 0.5;
+      z-index: -1;
     }
 
     .login-card {
@@ -54,27 +85,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       box-shadow: 0 10px 25px rgba(0,0,0,0.1);
       width: 380px;
       padding: 2rem;
-      
-    }
-
-    .login-header {
       text-align: center;
-      margin-bottom: 1.5rem;
     }
 
     .login-header h2 {
       font-weight: 700;
       color: #b56576;
+      margin-bottom: 0.3rem;
     }
 
     .login-header p {
       color: #99627a;
       font-size: 0.9rem;
+      margin-bottom: 1.5rem;
     }
 
     .form-label {
       color: #7b4b64;
       font-weight: 500;
+      text-align: left;
+      display: block;
     }
 
     .form-control {
@@ -134,23 +164,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       color: #9a4a60;
       text-decoration: underline;
     }
-
-    /* Optional crochet pattern background (soft texture) */
-    /* Optional crochet pattern background (soft texture) */
-    .pattern {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('img/wool-elements-space-right.jpg'); /* ✅ correct folder path */
-    background-repeat: repeat;
-    background-size: cover; /* or 'contain' if you want the full image visible */
-    opacity: 0.50; /* make it subtle */
-    z-index: -1; /* keep it behind everything */
-    }
-
-
   </style>
 </head>
 <body>
@@ -158,19 +171,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <div class="login-card">
     <div class="login-header">
       <h2>🧶 Crochet Ni Ate</h2>
-      <p></p>
+      <p>Welcome back! Please log in</p>
     </div>
 
     <?php if(isset($_SESSION['msg'])) { echo "<p class='info'>".$_SESSION['msg']."</p>"; unset($_SESSION['msg']); } ?>
     <?php if(isset($error)) echo "<p class='error'>$error</p>"; ?>
 
     <form method="POST">
-      <div class="mb-3">
+      <div class="mb-3 text-start">
         <label class="form-label">Username</label>
         <input type="text" name="username" class="form-control" required>
       </div>
 
-      <div class="mb-3">
+      <div class="mb-3 text-start">
         <label class="form-label">Password</label>
         <input type="password" name="password" class="form-control" required>
       </div>

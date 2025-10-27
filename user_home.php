@@ -136,31 +136,27 @@ $username = $_SESSION['username'];
   <div class="pattern"></div>
 
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg sticky-top">
-    <div class="container">
-      <a class="navbar-brand" href="#">🧶 Crochet Ni Ate</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-        <ul class="navbar-nav align-items-center">
-          <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Shop</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">My Orders</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Profile</a></li>
-          <li class="nav-item ms-3">
-            <a href="logout.php" class="btn btn-logout"><i class="bi bi-box-arrow-right me-1"></i>Logout</a>
-          </li>
-        </ul>
-      </div>
+ <nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="user_home.php">🧶 Crochet Ni Ate</a>
+    <div class="collapse navbar-collapse justify-content-end">
+      <ul class="navbar-nav align-items-center">
+        <li class="nav-item"><a class="nav-link" href="user_home.php">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="shop.php">Shop</a></li>
+        <li class="nav-item"><a class="nav-link active" href="my_cart.php">My Cart 🛒</a></li>
+        <li class="nav-item ms-3">
+          <a href="logout.php" class="btn btn-logout">Logout</a>
+        </li>
+      </ul>
     </div>
-  </nav>
+  </div>
+</nav>
 
   <!-- Hero -->
   <section class="hero">
     <h1>Welcome, <?= htmlspecialchars($username) ?>!</h1>
     <p>Continue your creative journey with Crochet Ni Ate — where every thread tells a story of comfort and craftsmanship.</p>
-    <a href="#" class="btn-shop">Shop Handmade Items</a>
+    <a href="shop.php" class="btn-shop">Shop Handmade Items</a>
   </section>
 
   <!-- Product showcase -->

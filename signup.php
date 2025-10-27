@@ -5,9 +5,13 @@ session_start();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username']);
     $password = $_POST['password'];
+    $confirm = $_POST['confirm_password'];
 
-    if (empty($username) || empty($password)) {
-        $error = "Please fill in all fields.";
+    // Validate inputs
+    if (empty($username) || empty($password) || empty($confirm)) {
+        $error = "⚠️ Please fill in all fields.";
+    } elseif ($password !== $confirm) {
+        $error = "⚠️ Passwords do not match.";
     } else {
         // Check if username already exists
         $check = $conn->prepare("SELECT * FROM users WHERE username = ?");
@@ -16,18 +20,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = $check->get_result();
 
         if ($result->num_rows > 0) {
-            $error = "Username already exists.";
+            $error = "⚠️ Username already exists.";
         } else {
+            // Insert new user
             $stmt = $conn->prepare("INSERT INTO users (username, password, role) VALUES (?, ?, 'user')");
             $hash = password_hash($password, PASSWORD_DEFAULT);
             $stmt->bind_param("ss", $username, $hash);
 
             if ($stmt->execute()) {
-                $_SESSION['msg'] = "Registration successful! You can now log in.";
+                $_SESSION['msg'] = "✅ Registration successful! You can now log in.";
                 header("Location: login.php");
                 exit();
             } else {
-                $error = "Something went wrong. Please try again.";
+                $error = "⚠️ Something went wrong. Please try again.";
             }
         }
     }
@@ -49,6 +54,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       align-items: center;
       justify-content: center;
       overflow: hidden;
+      position: relative;
+    }
+
+    .pattern {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('img/wool-elements-space-right.jpg');
+      background-repeat: repeat;
+      background-size: cover;
+      opacity: 0.5;
+      z-index: -1;
     }
 
     .register-card {
@@ -68,11 +87,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     .register-header h2 {
       font-weight: 700;
       color: #b56576;
-    }
-
-    .register-header p {
-      color: #99627a;
-      font-size: 0.9rem;
     }
 
     .form-label {
@@ -115,16 +129,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       font-size: 0.9rem;
     }
 
-    .info {
-      color: #0b7a75;
-      background: #e5fff7;
-      border-radius: 10px;
-      padding: 10px;
-      text-align: center;
-      margin-bottom: 15px;
-      font-size: 0.9rem;
-    }
-
     .login-link {
       display: block;
       text-align: center;
@@ -137,20 +141,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       color: #9a4a60;
       text-decoration: underline;
     }
-
-    /* Crochet pattern background */
-        .pattern {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('img/wool-elements-space-right.jpg'); /* ✅ correct folder path */
-    background-repeat: repeat;
-    background-size: cover; /* or 'contain' if you want the full image visible */
-    opacity: 0.50; /* make it subtle */
-    z-index: -1; /* keep it behind everything */
-    }
   </style>
 </head>
 <body>
@@ -158,7 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <div class="register-card">
     <div class="register-header">
       <h2>🧶 Crochet Ni Ate</h2>
-      <p> </p>
+      <p>Create your account below</p>
     </div>
 
     <?php if(isset($error)) echo "<p class='error'>$error</p>"; ?>
@@ -172,6 +162,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <div class="mb-3">
         <label class="form-label">Password</label>
         <input type="password" name="password" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Confirm Password</label>
+        <input type="password" name="confirm_password" class="form-control" required>
       </div>
 
       <button type="submit" class="btn btn-register">Register</button>
