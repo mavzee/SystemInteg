@@ -244,6 +244,7 @@ $total = 0;
       <ul class="navbar-nav align-items-center">
         <li class="nav-item"><a class="nav-link" href="user_home.php">Home</a></li>
         <li class="nav-item"><a class="nav-link" href="shop.php">Shop</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.php">About</a></li>
         <li class="nav-item"><a class="nav-link active" href="my_cart.php">My Cart 🛒</a></li>
         <li class="nav-item ms-3">
           <a href="logout.php" class="btn btn-logout">Logout</a>
