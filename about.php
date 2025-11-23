@@ -98,14 +98,22 @@ $username = $_SESSION['username'];
       background: #b56576;
       color: #fff;
       border-radius: 14px;
-      padding: 12px 28px;
+      padding: 15px 35px;
+      font-size: 1.15rem;
       font-weight: 600;
       text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(181, 101, 118, 0.2);
     }
 
     .btn-main:hover {
       background: #9a4a60;
       color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(181, 101, 118, 0.3);
     }
 
     .btn-ghost {
@@ -250,22 +258,22 @@ $username = $_SESSION['username'];
 
   <section class="hero py-5">
     <div class="container">
-      <div class="row align-items-center g-5">
-        <div class="col-lg-6">
+      <div class="row g-5">
+        <div class="col-lg-6 d-flex flex-column">
           <p class="eyebrow">About Crochet Ni Ate</p>
           <h1>Handmade comforts stitched with purpose.</h1>
           <p>Hi <?= htmlspecialchars($username) ?>, welcome to our studio. Crochet Ni Ate started as a sister duo sharing warmth with the community. Today every stitch still carries the same promise—slow-made quality, fair livelihoods, and joyful gifting.</p>
-          <div class="d-flex flex-wrap gap-3">
+          <div class="mb-4">
             <a href="shop.php" class="btn-main">Explore the collection</a>
-            <div class="hero-card flex-grow-1" style="min-width:260px;">
-              <small>Order fulfillment</small>
-              <h4 class="mt-1 mb-0">3-5 day local delivery</h4>
-              <p class="mb-0 text-muted" style="font-size:0.9rem;">Nationwide shipping & pick-up options</p>
-            </div>
+          </div>
+          <div class="hero-card mt-auto">
+            <small>Order fulfillment</small>
+            <h4 class="mt-1 mb-0">3-5 day local delivery</h4>
+            <p class="mb-0 text-muted" style="font-size:0.9rem;">Nationwide shipping & pick-up options</p>
           </div>
         </div>
         <div class="col-lg-6">
-          <div class="hero-card">
+          <div class="hero-card h-100">
             <div class="row g-4">
               <div class="col-6">
                 <div class="stat-card">
