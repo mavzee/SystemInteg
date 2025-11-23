@@ -179,7 +179,7 @@ $user_id = $_SESSION['user_id'];
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg sticky-top">
     <div class="container">
-      <a class="navbar-brand" href="#">🧶 Crochet Ni Ate</a>
+      <a class="navbar-brand" href="user_home.php">🧶 Crochet Ni Ate</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -187,6 +187,7 @@ $user_id = $_SESSION['user_id'];
         <ul class="navbar-nav align-items-center">
           <li class="nav-item"><a class="nav-link" href="user_home.php">Home</a></li>
           <li class="nav-item"><a class="nav-link active" href="shop.php">Shop</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.php">About</a></li>
           <li class="nav-item"><a class="nav-link" href="my_cart.php">My Cart 🛒</a></li>
            
           <li class="nav-item ms-3">

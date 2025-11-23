@@ -141,9 +141,10 @@ $username = $_SESSION['username'];
     <a class="navbar-brand" href="user_home.php">🧶 Crochet Ni Ate</a>
     <div class="collapse navbar-collapse justify-content-end">
       <ul class="navbar-nav align-items-center">
-        <li class="nav-item"><a class="nav-link" href="user_home.php">Home</a></li>
+        <li class="nav-item"><a class="nav-link active" href="user_home.php">Home</a></li>
         <li class="nav-item"><a class="nav-link" href="shop.php">Shop</a></li>
-        <li class="nav-item"><a class="nav-link active" href="my_cart.php">My Cart 🛒</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.php">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="my_cart.php">My Cart 🛒</a></li>
         <li class="nav-item ms-3">
           <a href="logout.php" class="btn btn-logout">Logout</a>
         </li>
